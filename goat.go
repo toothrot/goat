@@ -20,6 +20,18 @@ func main() {
 
 	v := url.Values{}
 	v.Set("count", "30")
+
+	since_id := "0"
+	barf := url.Values{}
+	timeline, err := api.GetHomeTimeline(barf)
+
+	for _, tweet := range timeline {
+		if tweet.IdStr > since_id {
+			since_id = tweet.IdStr
+		}
+	}
+
+	v.Set("since_id", since_id)
 	name := os.Getenv("Name")
 
 	coolWords := []string{"awesome", "great", "rad", "cool", "really cool", "the best"}
@@ -54,11 +66,12 @@ func main() {
 	}
 
 	for text, tweet := range matches {
-		_, err := api.Retweet(tweet.Id, false)
+		//_, err := api.Retweet(tweet.Id, false)
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println(text, tweet.Id, tweet.FilterLevel, tweet.PossiblySensitive)
+
+		fmt.Println(text, tweet.Id, tweet.FilterLevel, tweet.PossiblySensitive, tweet.RetweetedStatus)
 	}
 	fmt.Println(maxId)
 }
