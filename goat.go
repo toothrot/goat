@@ -66,7 +66,7 @@ func main() {
 	}
 
 	for text, tweet := range matches {
-		//_, err := api.Retweet(tweet.Id, false)
+		_, err := api.Retweet(tweet.Id, false)
 		if err != nil {
 			fmt.Println(err)
 		}
