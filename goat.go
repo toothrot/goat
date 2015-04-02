@@ -66,9 +66,11 @@ func main() {
 	}
 
 	for text, tweet := range matches {
-		_, err := api.Retweet(tweet.Id, false)
-		if err != nil {
-			fmt.Println(err)
+		if tweet.Retweeted != true {
+			_, err := api.Retweet(tweet.Id, false)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 
 		fmt.Println(text, tweet.Id, tweet.FilterLevel, tweet.PossiblySensitive, tweet.RetweetedStatus)
